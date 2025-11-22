@@ -1,0 +1,379 @@
+<html>
+    <head>
+        <title>Admin Page</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background: #f4f5f7;
+                margin: 0;
+                padding: 20px;
+            }
+
+            /* Navigation */
+            #nav {
+                background: #1e88e5;
+                padding: 15px 0;
+                margin-bottom: 40px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            }
+
+            .deco {
+                text-decoration: none;
+                color: white;
+                font-size: 20px;
+                margin: 0 25px;
+                font-weight: 500;
+                transition: 0.3s ease;
+            }
+
+            .deco:hover {
+                color: #ffeb3b;
+            }
+
+            /* Tables */
+            table, th, td {
+                border: 1px solid #ddd;   /* lighter + thinner border */
+                border-collapse: collapse;
+            }
+
+            table {
+                width: 90%;
+                margin: 15px auto;
+                background: white;
+                border-radius: 6px;
+                overflow: hidden;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+            }
+
+            thead {
+                background: #b5e1ff;   /* Soft Material blue-grey */
+                color: #37474f;        /* Deep grey text */
+                font-weight: 600;
+            }
+
+
+            th, td {
+                padding: 12px;
+                text-align: center;
+            }
+
+            /* Filters section */
+            #filters {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                background: white;
+                padding: 12px 20px;
+                width: fit-content;
+                margin: 20px auto;
+                border-radius: 6px;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+                font-weight: bold;
+            }
+
+            select, input[type="search"] {
+                padding: 8px;
+                border: 1px solid #bbb;
+                border-radius: 4px;
+                font-size: 14px;
+            }
+
+            button, 
+            input[type="submit"] {
+                padding: 8px 14px;
+                background: #1e88e5;    /* same as nav */
+                border: none;
+                border-radius: 4px;
+                color: white;
+                cursor: pointer;
+                font-size: 14px;
+                transition: 0.3s ease;
+            }
+
+            button:hover, 
+            input[type="submit"]:hover {
+                background: #1565c0;    /* darker blue hover */
+            }
+
+
+            /* Search box */
+            #searchtext {
+                margin-left: 20px;
+                padding: 10px;
+                width: 200px;
+            }
+
+            /* Delete button inside table */
+            table button {
+                background: #d9534f;
+            }
+
+            table button:hover {
+                background: #c9302c;
+            }
+
+            /* Hide / show dropdowns */
+            #statustype {
+                display: none;
+            }
+
+            /* ------------ STATUS COLORS (Bold) ------------ */
+            /* ------------ STATUS COLORS (KEEPING SAME) ------------ */
+            .pendingcolor {
+                background-color: #fff4b3;
+            }
+
+            .approvedcolor {
+                background-color: #c9f7d5;
+            }
+
+            .rejectedcolor {
+                background-color: #ffcccc;
+            }
+
+            /* ------------ NEW LEAVE TYPE COLORS ------------ */
+            .sickcolor {
+                background-color: #ffe0e0;   /* soft coral */
+            }
+
+            .casualcolor {
+                background-color: #eef0ff;   /* lavender blue */
+            }
+
+            .earnedcolor {
+                background-color: #e8ffe8;   /* mint green */
+            }
+
+            .emergencycolor {
+                background-color: #ffe9d6;   /* soft apricot */
+            }
+
+
+/*
+            td,th{
+                padding-left: 100px;
+                padding-top: 10px;
+            }
+            #statustype{
+                display: none;
+            }
+            #leavetype{
+                display: block;
+            }
+            #filters{
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }*/
+        </style>
+    </head>
+    <body>
+        <div id="nav">
+            <center>
+                <a href="Leave Request.html" class="deco">Leave Request</a>
+                <a href="Admin.html" class="deco">Admin</a>
+            </center>
+        </div>
+        <div>
+            <table>
+                <thead>
+                    <th>Total Requests</th>
+                    <th>Pending</th>
+                    <th>Approved</th>
+                    <th>Rejected</th>
+                </thead>
+                <tbody style="text-align: center;">
+                    <td id="reqcount">0</td>
+                    <td id="pencount">0</td>
+                    <td id="appcount">0</td>
+                    <td id="rejcount">0</td>
+                </tbody>
+            </table>
+        </div>
+        <div id="filters">
+            filter
+            <select id="filter" onchange="changetype()">
+                <option value="leavetype">Leave Type</option>
+                <option value="status">Status</option>
+            </select> by 
+            <select id="leavetype">
+                <option value="All">All</option>
+                <option value="Sick">Sick</option>
+                <option value="Casual">Casual</option>
+                <option value="Earned">Earned</option>
+                <option value="Emergency">Emergency</option>
+            </select>
+            <select id="statustype">
+                <option value="All">All</option>
+                <option value="Pending">Pending</option>
+                <option value="Approved">Approved</option>
+                <option value="Rejected">Rejected</option>
+            </select>
+            <button onclick="applyfilter()">Apply</button>
+        </div>
+        <center>
+            <input id="searchtext" type="search"/>
+            <input type="submit" value="Search" onclick="search()"/>
+        </center>
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Leave Type</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>No.of Days</th>
+                    <th>Status</th>
+                    <th>Reason</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+                
+            </tbody>
+        </table>
+        <h id="sam"></h>
+    </body>
+    <script>
+
+
+        function search(){
+            name=(document.getElementById('searchtext').value);
+            document.getElementById('sam').innerHTML=name
+            let arr=JSON.parse(localStorage.getItem('storedata'))||[]
+            filteredarr=arr.filter(item=>{
+                return item.name.toLowerCase().includes(name.toLowerCase())
+            })
+            display(filteredarr)
+        }
+
+        function updatestatus(name,value){
+            arr=JSON.parse(localStorage.getItem('storedata'))||[]
+            for(i=0;i<arr.length;i++){
+                if(arr[i].name===name){
+                    arr[i].status=value;
+                    break;
+                }
+            }
+            localStorage.setItem('storedata',JSON.stringify(arr))
+            applyfilter();
+        }
+
+        function display(data){
+            let tablebody=document.getElementById('tbody');
+            let count=0;
+            let pencount=0;
+            let appcount=0;
+            let rejcount=0;
+            tablebody.innerHTML="";
+            data.forEach((item,index)=>{
+                start=new Date(item.startdate)
+                end=new Date(item.enddate)
+                days = (end - start) / (1000 * 60 * 60 * 24) + 1;
+                let row=`
+                    <tr>
+                    <td>${item.name}</td>
+                    <td class="${
+                        item.leavetype === 'Sick' ? 'sickcolor' :
+                        item.leavetype === 'Casual' ? 'casualcolor' :
+                        item.leavetype === 'Earned' ? 'earnedcolor' :
+                        'emergencycolor'
+                    }">${item.leavetype}</td>
+                    <td>${item.startdate}</td>
+                    <td>${item.enddate}</td>
+                    <td>${days}</td>
+                    <td class="${
+                        item.status === 'Pending' ? 'pendingcolor' :
+                        item.status === 'Approved' ? 'approvedcolor' :
+                        'rejectedcolor'
+                    }">
+                        ${
+                            item.status === "Pending"
+                                ? `<select id='statusupdate' onchange="updatestatus('${item.name}',this.value)">
+                                        <option value="Pending">Pending</option>
+                                        <option value="Approved">Approved</option>
+                                        <option value="Rejected">Rejected</option>
+                                    </select>`
+                                : item.status
+                        }
+                    </td>
+                    <td>${item.reason}</td>
+                    <td><button onclick="deleterow('${index}')">Delete</button></td>
+                </tr>
+                `;
+                tablebody.innerHTML+=row;
+                count+=1
+                if(item.status==='Pending'){
+                    pencount+=1
+                }
+                if(item.status==='Approved'){
+                    appcount+=1
+                }
+                if(item.status==='Rejected'){
+                    rejcount+=1
+                }
+            });  
+            document.getElementById('reqcount').innerHTML=count; 
+            document.getElementById('pencount').innerHTML=pencount; 
+            document.getElementById('appcount').innerHTML=appcount; 
+            document.getElementById('rejcount').innerHTML=rejcount; 
+        }
+
+
+        function changetype(){
+            let type=document.getElementById('filter').value;
+            if(type=="status"){
+                document.getElementById('statustype').style.display='block';
+                document.getElementById('leavetype').style.display='none';
+            }
+            else if(type=="leavetype"){
+                document.getElementById('statustype').style.display='none';
+                document.getElementById('leavetype').style.display='block';
+            }
+        }
+
+        function applyfilter(){
+
+            let arr=JSON.parse(localStorage.getItem('storedata'))||[];
+            let filtertype=document.getElementById('filter').value;
+            let selectedvalue;
+            if (filtertype=='leavetype'){
+                selectedvalue=document.getElementById('leavetype').value;
+            }
+            else{
+                selectedvalue=document.getElementById('statustype').value;
+            }
+            if(selectedvalue==='All'){
+                display(arr)
+            }
+            else{
+                let filteredarr=arr.filter(item=>{
+                    if(selectedvalue==='ALL'){
+                        return true;
+                    }
+                    if(filtertype==='leavetype'){
+                        return item.leavetype===selectedvalue;
+                    }
+                    else{
+                        return item.status===selectedvalue;
+                    }
+                });
+                display(filteredarr);
+            }
+        }
+        
+        
+
+        function load(){
+            let arr=JSON.parse(localStorage.getItem('storedata'))||[];
+            display(arr);
+        }
+        load()
+
+        function deleterow(row){
+            let arr=JSON.parse(localStorage.getItem('storedata'))||[]
+            arr.splice(row,1);
+            localStorage.setItem('storedata',JSON.stringify(arr));
+            load()
+        }
+    </script>
+</html>

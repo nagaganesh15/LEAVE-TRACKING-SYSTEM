@@ -1,0 +1,216 @@
+<html>
+    <head>
+        <title>Leave Request Page</title>
+        <style>
+            /* --- Reset & Base --- */
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: "Poppins", sans-serif;
+                background: #f5f7fa;
+            }
+
+            /* --- Navigation Bar --- */
+            #nav {
+                background: #1e88e5;
+                padding: 15px 0;
+                margin-bottom: 40px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            }
+
+            .deco {
+                text-decoration: none;
+                color: white;
+                font-size: 20px;
+                margin: 0 25px;
+                font-weight: 500;
+                transition: 0.3s ease;
+            }
+
+            .deco:hover {
+                color: #ffeb3b;
+            }
+
+            /* --- Form Container --- */
+            form {
+                background: white;
+                padding: 30px 40px;
+                border-radius: 12px;
+                width: 450px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+                text-align: left;
+            }
+
+            h1 {
+                text-align: center;
+                color: #1e88e5;
+                font-weight: 600;
+                margin-bottom: 25px;
+            }
+
+            /* --- Table Layout --- */
+            table {
+                width: 100%;
+            }
+
+            td {
+                padding: 10px 0;
+                font-size: 16px;
+            }
+
+            /* --- Inputs & Select Controls --- */
+            input[type="text"],
+            input[type="date"],
+            textarea,
+            select {
+                width: 100%;
+                padding: 10px;
+                font-size: 15px;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                outline: none;
+                transition: 0.3s;
+            }
+
+            input:focus,
+            textarea:focus,
+            select:focus {
+                border-color: #1e88e5;
+                box-shadow: 0 0 6px rgba(30,136,229,0.4);
+            }
+
+            textarea {
+                height: 70px;
+                resize: none;
+            }
+
+            /* --- Submit Button --- */
+            input[type="submit"] {
+                margin-top: 20px;
+                width: 100%;
+                padding: 12px;
+                font-size: 18px;
+                border: none;
+                border-radius: 8px;
+                background: #1e88e5;
+                color: white;
+                font-weight: bold;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+
+            input[type="submit"]:hover {
+                background: #1565c0;
+            }
+
+            /* --- Result Message --- */
+            #res {
+                margin-top: 15px;
+                font-size: 18px;
+                color: #2e7d32;
+                font-weight: 600;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="nav">
+            <center>
+                <a href="Leave Request.html" class="deco">Leave Request</a>
+                <a href="Admin.html" class="deco">Admin</a>
+            </center>
+        </div>
+        <center>
+            <div>
+                <form>
+                    <table>
+                        <tr>
+                            <h1>Leave Request</h1>
+                        </tr>
+                        <tr>
+                            <td>Employee name: </td>
+                            <td>
+                                <input type="text" id="name" required/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Leave Type: </td>
+                            <td>
+                                <select id="leave" required>
+                                    <option value="">--choose--</option>
+                                    <option value="Sick">Sick</option>
+                                    <option value="Casual">Casual</option>
+                                    <option value="Earned">Earned</option>
+                                    <option value="Emergency">Emergency</option>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Start Date: </td>
+                            <td>
+                                <input type="date" id="startdate" required/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>End Date: </td>
+                            <td>
+                                <input type="date" id="enddate" required/>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Reason: </td>
+                            <td>
+                                <textarea id="reason"></textarea>
+                            </td>
+                        </tr>
+
+                    </table>
+                    <input type="submit" onclick="store()"/>
+
+                </form>
+                <h2 id="res"></h2>
+            </div>
+        </center>
+
+        <script>
+
+            function store(){
+                let arr=JSON.parse(localStorage.getItem('storedata'))||[]
+                name=document.getElementById('name').value;
+                leavetype=document.getElementById('leave').value;
+                startdate=document.getElementById('startdate').value;
+                enddate=document.getElementById('enddate').value;
+                reason=document.getElementById('reason').value;
+                if(name==""){
+                    document.getElementById('res').innerHTML="Please Enter Name";
+                }
+                else if(leavetype==""){
+                    document.getElementById('res').innerHTML="Please Select Leave Type";
+                }
+                else if(startdate==""){
+                    document.getElementById('res').innerHTML="Please Select Start Date";
+                }
+                else if(enddate==""){
+                    document.getElementById('res').innerHTML="Please Select End Date";
+                }
+                else{
+                    arr.push({
+                        name:name,
+                        leavetype:leavetype,
+                        startdate:startdate,
+                        enddate:enddate,
+                        status:'Pending',
+                        reason:reason
+                    })
+                    localStorage.setItem('storedata',JSON.stringify(arr)) 
+                    document.getElementById('res').innerHTML="Leave Request Successfully";
+                }
+                
+            }
+        </script>
+    </body>
+    </html>
