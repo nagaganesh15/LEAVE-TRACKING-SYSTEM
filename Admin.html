@@ -6,10 +6,9 @@
                 font-family: Arial, sans-serif;
                 background: #f4f5f7;
                 margin: 0;
-                padding: 20px;
+                padding: 0px;
             }
 
-            /* Navigation */
             #nav {
                 background: #1e88e5;
                 padding: 15px 0;
@@ -30,7 +29,6 @@
                 color: #ffeb3b;
             }
 
-            /* Tables */
             table, th, td {
                 border: 1px solid #ddd;   /* lighter + thinner border */
                 border-collapse: collapse;
@@ -57,7 +55,6 @@
                 text-align: center;
             }
 
-            /* Filters section */
             #filters {
                 display: flex;
                 align-items: center;
@@ -96,14 +93,12 @@
             }
 
 
-            /* Search box */
             #searchtext {
                 margin-left: 20px;
                 padding: 10px;
                 width: 200px;
             }
 
-            /* Delete button inside table */
             table button {
                 background: #d9534f;
             }
@@ -112,13 +107,10 @@
                 background: #c9302c;
             }
 
-            /* Hide / show dropdowns */
             #statustype {
                 display: none;
             }
 
-            /* ------------ STATUS COLORS (Bold) ------------ */
-            /* ------------ STATUS COLORS (KEEPING SAME) ------------ */
             .pendingcolor {
                 background-color: #fff4b3;
             }
@@ -131,7 +123,6 @@
                 background-color: #ffcccc;
             }
 
-            /* ------------ NEW LEAVE TYPE COLORS ------------ */
             .sickcolor {
                 background-color: #ffe0e0;   /* soft coral */
             }
@@ -147,8 +138,6 @@
             .emergencycolor {
                 background-color: #ffe9d6;   /* soft apricot */
             }
-
-
 /*
             td,th{
                 padding-left: 100px;
@@ -191,7 +180,7 @@
             </table>
         </div>
         <div id="filters">
-            filter
+            Filter
             <select id="filter" onchange="changetype()">
                 <option value="leavetype">Leave Type</option>
                 <option value="status">Status</option>
@@ -231,18 +220,17 @@
                 
             </tbody>
         </table>
-        <h id="sam"></h>
     </body>
     <script>
 
 
         function search(){
             name=(document.getElementById('searchtext').value);
-            document.getElementById('sam').innerHTML=name
             let arr=JSON.parse(localStorage.getItem('storedata'))||[]
             filteredarr=arr.filter(item=>{
                 return item.name.toLowerCase().includes(name.toLowerCase())
             })
+            document.getElementById('searchtext').value="";
             display(filteredarr)
         }
 
