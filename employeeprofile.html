@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Profile</title>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            background:#f4f6f9;
+            margin:0;
+        }
+
+        #nav {
+            background: #1e88e5;
+            padding: 10px 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .deco {
+            text-decoration: none;
+            color: white;
+            font-size: 22px;
+            margin: 0 25px;
+            font-weight: 500;
+        }
+
+        .deco:hover {
+            color: #ffeb3b;
+        }
+
+        #profile {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            background-image: url('profile.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .container{
+            width:90%;
+            margin:20px auto;
+        }
+
+        .card{
+            background:white;
+            padding:20px;
+            border-radius:6px;
+            box-shadow:0 2px 6px rgba(0,0,0,0.15);
+            margin-bottom:20px;
+        }
+        #searchCard{
+    width: 420px;
+    margin: 120px auto;          /* centers horizontally */
+    text-align: center;
+    padding: 30px;
+}
+
+/* Search input styling */
+#searchCard input{
+    width: 90%;
+    padding: 12px;
+    margin: 15px 0 20px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+/* Center button */
+#searchCard button{
+    display: block;
+    margin: 0 auto;              /* centers button */
+    padding: 10px 30px;
+    font-size: 16px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+/* Button hover effect */
+#searchCard button:hover{
+    background: #0d47a1;
+    transform: scale(1.05);
+}
+
+
+        input,button{
+            padding:8px;
+            font-size:15px;
+        }
+
+        button{
+            background:#1e88e5;
+            color:white;
+            border:none;
+            cursor:pointer;
+            border-radius:4px;
+        }
+
+        button:hover{
+            background:#1565c0;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:15px;
+        }
+
+        th,td{
+            border:1px solid #ccc;
+            padding:10px;
+            text-align:center;
+        }
+
+        th{
+            background:#e3f2fd;
+        }
+
+        .balance{
+            display:flex;
+            gap:15px;
+        }
+
+        .box{
+            flex:1;
+            padding:15px;
+            text-align:center;
+            border-radius:6px;
+            font-weight:bold;
+        }
+
+        .sick{background:#ffe0e0;}
+        .casual{background:#eef0ff;}
+        .earned{background:#e8ffe8;}
+        .emergency{background:#ffe9d6;}
+
+        .calendar{
+            display:grid;
+            grid-template-columns: repeat(7,1fr);
+            gap:5px;
+            margin-top:10px;
+        }
+
+        .day{
+            padding:10px;
+            background:#f1f1f1;
+            border-radius:4px;
+        }
+
+        .leave{
+            background:#ffcccb;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAV BAR -->
+<div id="nav">
+    <div class="nav-container">
+        <div>
+            <a href="index.html" class="deco">Leave Request</a>
+            <a href="Admin.html" class="deco" target="_blank">Admin</a>
+        </div>
+        <div>
+            <button id="profile"></button>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <!-- SEARCH EMPLOYEE (VISIBLE INITIALLY) -->
+    <div class="card" id="searchCard">
+        <h3>Search Employee</h3>
+        <input type="text" id="searchEmpId" placeholder="Enter Employee ID">
+        <button onclick="loadProfileById()">View Profile</button>
+    </div>
+
+    <!-- PROFILE SECTION (HIDDEN INITIALLY) -->
+    <div id="profileSection" style="display:none;">
+
+        <!-- EMPLOYEE DETAILS -->
+        <div class="card">
+            <h3>Employee Details</h3>
+            <p><b>ID:</b> <span id="eid">-</span></p>
+            <p><b>Name:</b> <span id="ename">-</span></p>
+            <p><b>Department:</b> <span id="edept">-</span></p>
+        </div>
+
+        <!-- LEAVE BALANCE -->
+        <div class="card">
+            <h3>Leave Balance</h3>
+            <div class="balance">
+                <div class="box sick">Sick<br><span id="bsick">0</span></div>
+                <div class="box casual">Casual<br><span id="bcasual">0</span></div>
+                <div class="box earned">Earned<br><span id="bearned">0</span></div>
+                <div class="box emergency">Emergency<br><span id="bemergency">0</span></div>
+            </div>
+        </div>
+
+        <!-- LEAVE HISTORY -->
+        <div class="card">
+            <h3>Leave History</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Days</th>
+                        <th>Status</th>
+                        <th>Comment</th>
+                    </tr>
+                </thead>
+                <tbody id="leavehistory"></tbody>
+            </table>
+        </div>
+
+        <!-- CALENDAR -->
+        <div class="card">
+            <h3>Monthly Leave Calendar</h3>
+            <div class="calendar" id="calendar"></div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function loadProfileById(){
+    let empId = document.getElementById("searchEmpId").value.trim();
+    if(empId === ""){
+        alert("Enter Employee ID");
+        return;
+    }
+
+    let employees = JSON.parse(localStorage.getItem("storeempdetails")) || [];
+    let leaves = JSON.parse(localStorage.getItem("storedata")) || [];
+
+    let emp = employees.find(e => e.empid == empId);
+    if(!emp){
+        alert("Employee not found");
+        return;
+    }
+
+    // Hide search & show profile
+    document.getElementById("searchCard").style.display = "none";
+    document.getElementById("profileSection").style.display = "block";
+
+    showEmployeeProfile(emp, leaves);
+}
+
+function showEmployeeProfile(emp, leaves){
+
+    document.getElementById("eid").innerText = emp.empid;
+    document.getElementById("ename").innerText = emp.name;
+    document.getElementById("edept").innerText = emp.dept;
+
+    let sick = parseInt(emp.sickleaves);
+    let casual = parseInt(emp.casualleaves);
+    let earned = parseInt(emp.earnedleaves);
+    let emergency = parseInt(emp.emergencyleaves);
+
+    let historyHTML = "";
+
+    leaves.forEach(l=>{
+        if(l.empid == emp.empid){
+
+            let d1 = new Date(l.startdate);
+            let d2 = new Date(l.enddate);
+            let days = (d2 - d1) / (1000*60*60*24) + 1;
+
+            if(l.status === "Approved"){
+                if(l.leavetype === "Sick") sick -= days;
+                if(l.leavetype === "Casual") casual -= days;
+                if(l.leavetype === "Earned") earned -= days;
+                if(l.leavetype === "Emergency") emergency -= days;
+            }
+
+            historyHTML += `
+                <tr>
+                    <td>${l.leavetype}</td>
+                    <td>${l.startdate}</td>
+                    <td>${l.enddate}</td>
+                    <td>${days}</td>
+                    <td>${l.status}</td>
+                    <td>${l.comment || "-"}</td>
+                </tr>
+            `;
+        }
+    });
+
+    document.getElementById("leavehistory").innerHTML = historyHTML;
+    document.getElementById("bsick").innerText = sick;
+    document.getElementById("bcasual").innerText = casual;
+    document.getElementById("bearned").innerText = earned;
+    document.getElementById("bemergency").innerText = emergency;
+
+}
+
+function buildCalendar(leaves, empid){
+    let cal = document.getElementById("calendar");
+    cal.innerHTML = "";
+
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = today.getMonth();
+    let daysInMonth = new Date(year, month+1, 0).getDate();
+
+    for(let d=1; d<=daysInMonth; d++){
+        let cell = document.createElement("div");
+        cell.className = "day";
+        cell.innerText = d;
+
+        leaves.forEach(l=>{
+            if(l.empid == empid && l.status === "Approved"){
+                let s = new Date(l.startdate);
+                let e = new Date(l.enddate);
+                let c = new Date(year, month, d);
+
+                if(c >= s && c <= e){
+                    cell.classList.add("leave");
+                }
+            }
+        });
+
+        cal.appendChild(cell);
+    }
+}
+</script>
+
+</body>
+</html>

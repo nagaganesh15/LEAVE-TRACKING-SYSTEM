@@ -1,0 +1,228 @@
+<html>
+<head>
+    <title>Leave Request Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            background: #f5f7fa;
+        }
+
+        #nav {
+            background: #1e88e5;
+            padding: 10px 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .deco {
+            text-decoration: none;
+            color: white;
+            font-size: 22px;
+            margin: 0 25px;
+            font-weight: 500;
+        }
+
+        .deco:hover {
+            color: #ffeb3b;
+        }
+
+        #profile {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            background-image: url('profile.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-right: 20px;
+        }
+
+        form {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            width: 450px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e88e5;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        td {
+            padding: 10px 0;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        textarea {
+            resize: none;
+            height: 70px;
+        }
+
+        input[type="submit"] {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: #1e88e5;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background: #1565c0;
+        }
+
+        #res {
+            margin-top: 15px;
+            font-size: 18px;
+            color: green;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="nav">
+    <div class="nav-container">
+        <div>
+            <a href="index.html" class="deco">Leave Request</a>
+            <a href="Admin.html" class="deco" target="_blank">Admin</a>
+        </div>
+        <div>
+            <a href="employeeprofile.html"><button id="profile"></button></a>
+        </div>
+    </div>
+</div>
+
+<center>
+<form>
+    <h1>Leave Request</h1>
+    <table>
+
+        <tr>
+            <td>Employee ID:</td>
+            <td><input type="text" id="empid" required></td>
+        </tr>
+
+        <tr>
+            <td>Leave Type:</td>
+            <td>
+                <select id="leave">
+                    <option value="">--choose--</option>
+                    <option value="Sick">Sick</option>
+                    <option value="Casual">Casual</option>
+                    <option value="Earned">Earned</option>
+                    <option value="Emergency">Emergency</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Start Date:</td>
+            <td><input type="date" id="startdate"></td>
+        </tr>
+
+        <tr>
+            <td>End Date:</td>
+            <td><input type="date" id="enddate"></td>
+        </tr>
+
+        <tr>
+            <td>Reason:</td>
+            <td><textarea id="reason"></textarea></td>
+        </tr>
+
+    </table>
+
+    <input type="submit" value="Submit Leave" onclick="store()">
+    <div id="res"></div>
+</form>
+</center>
+
+<script>
+function store(){
+    event.preventDefault();
+
+    let empid = document.getElementById('empid').value.trim();
+    let leavetype = document.getElementById('leave').value;
+    let startdate = document.getElementById('startdate').value;
+    let enddate = document.getElementById('enddate').value;
+    let reason = document.getElementById('reason').value;
+
+    let employees = JSON.parse(localStorage.getItem('storeempdetails')) || [];
+    let leaves = JSON.parse(localStorage.getItem('storedata')) || [];
+
+    // 🔍 Check employee exists
+    let employeeFound = false;
+    for(let i=0;i<employees.length;i++){
+        if(employees[i].empid === empid){
+            employeeFound = true;
+            break;
+        }
+    }
+
+    if(empid === ""){
+        res.innerHTML = "Please Enter Employee ID";
+        return;
+    }
+
+    if(!employeeFound){
+        res.innerHTML = "Invalid Employee ID";
+        return;
+    }
+
+    if(leavetype === ""){
+        res.innerHTML = "Please Select Leave Type";
+        return;
+    }
+
+    if(startdate === "" || enddate === ""){
+        res.innerHTML = "Please Select Start and End Date";
+        return;
+    }
+
+    // ✅ Only here data is stored
+    leaves.push({
+        empid: empid,
+        leavetype: leavetype,
+        startdate: startdate,
+        enddate: enddate,
+        reason: reason,
+        status: "Pending",
+        comment: ""
+    });
+
+    localStorage.setItem('storedata', JSON.stringify(leaves));
+    res.innerHTML = "Leave Request Submitted Successfully";
+}
+</script>
+
+
+</body>
+</html>
