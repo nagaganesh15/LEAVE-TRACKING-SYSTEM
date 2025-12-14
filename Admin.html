@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Leave Tracker</title>
+    <link rel="stylesheet" href="Admincss.css">
+</head>
+
+<body>
+
+<div id="nav">
+    <center>
+        <a href="Admin.html" class="deco">Employee Leave Tracker</a>
+        <a href="addemployee.html" class="deco">Add Employee</a>
+        <a href="employeedetails.html" class="deco">Employee Details</a>
+    </center>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Total Requests</th>
+            <th>Pending</th>
+            <th>Approved</th>
+            <th>Rejected</th>
+        </tr>
+    </thead>
+    <tbody style="text-align:center;">
+        <tr>
+            <td id="reqcount">0</td>
+            <td id="pencount">0</td>
+            <td id="appcount">0</td>
+            <td id="rejcount">0</td>
+        </tr>
+    </tbody>
+</table>
+
+<div id="filters">
+    <div>
+        Filter
+        <select id="filter" onchange="changetype()">
+            <option value="leavetype">Leave Type</option>
+            <option value="status">Status</option>
+        </select>
+        by
+        <select id="leavetype">
+            <option value="All">All</option>
+            <option value="Sick">Sick</option>
+            <option value="Casual">Casual</option>
+            <option value="Earned">Earned</option>
+            <option value="Emergency">Emergency</option>
+        </select>
+
+        <select id="statustype">
+            <option value="All">All</option>
+            <option value="Pending">Pending</option>
+            <option value="Approved">Approved</option>
+            <option value="Rejected">Rejected</option>
+        </select>
+
+        <button onclick="applyfilter()">Apply Filter</button>
+    </div>
+
+    <center>
+        <div>
+            Group by
+            <select id="groupby">
+                <option value="none">None</option>
+                <option value="employee">Employee</option>
+                <option value="department">Department</option>
+            </select>
+            <button onclick="applygrouping()">Apply Group</button>
+        </div>
+    </center>
+</div>
+
+<center>
+    <input id="searchtext" type="search">
+    <input type="submit" value="Search" onclick="search()">
+</center>
+
+<table>
+    <thead>
+        <tr>
+            <th>Emp ID</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Leave Type</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>No.of Days</th>
+            <th>Reason</th>
+            <th>Status</th>
+            <th>Comment</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+</table>
+
+<script src="Adminjs.js"></script>
+</body>
+</html>

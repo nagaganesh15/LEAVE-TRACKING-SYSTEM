@@ -1,0 +1,161 @@
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    margin:0;
+}
+
+#nav {
+    background: #1e88e5;
+    padding: 10px 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.deco {
+    text-decoration: none;
+    color: white;
+    font-size: 22px;
+    margin: 0 25px;
+    font-weight: 500;
+}
+
+.deco:hover {
+    color: #ffeb3b;
+}
+
+#profile {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    background-image: url('profile.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.container{
+    width:90%;
+    margin:20px auto;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:6px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.15);
+    margin-bottom:20px;
+}
+#searchCard{
+    width: 420px;
+    margin: 120px auto;          
+    text-align: center;
+    padding: 30px;
+}
+
+#searchCard input{
+    width: 90%;
+    padding: 12px;
+    margin: 15px 0 20px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+#searchCard button{
+    display: block;
+    margin: 0 auto;              
+    padding: 10px 30px;
+    font-size: 16px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+#searchCard button:hover{
+    background: #0d47a1;
+    transform: scale(1.05);
+}
+
+
+input,button{
+    padding:8px;
+    font-size:15px;
+}
+
+button{
+    background:#1e88e5;
+    color:white;
+    border:none;
+    cursor:pointer;
+    border-radius:4px;
+}
+
+button:hover{
+    background:#1565c0;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+th,td{
+    border:1px solid #ccc;
+    padding:10px;
+    text-align:center;
+}
+
+th{
+    background:#e3f2fd;
+}
+
+.balance{
+    display:flex;
+    gap:15px;
+}
+
+.box{
+    flex:1;
+    padding:15px;
+    text-align:center;
+    border-radius:6px;
+    font-weight:bold;
+}
+
+.sick{background:#ffe0e0;}
+.casual{background:#eef0ff;}
+.earned{background:#e8ffe8;}
+.emergency{background:#ffe9d6;}
+
+.calendar{
+    display:grid;
+    grid-template-columns: repeat(7,1fr);
+    gap:5px;
+    margin-top:10px;
+}
+
+.day{
+    padding:10px;
+    background:#f1f1f1;
+    border-radius:4px;
+}
+
+.leave{
+    background:#ffcccb;
+}
+
+.comment-text {
+    white-space: pre-wrap;     
+    word-break: break-word;     
+    overflow-wrap: break-word;  
+    max-width: 250px;           
+    text-align: left;
+}
