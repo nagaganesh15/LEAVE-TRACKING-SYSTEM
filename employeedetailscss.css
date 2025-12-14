@@ -1,0 +1,70 @@
+body{
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+}
+
+#nav {
+    background: #1e88e5;
+    padding: 15px 0;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.deco {
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    margin: 0 25px;
+    font-weight: 500;
+    transition: 0.3s ease;
+}
+
+.deco:hover {
+    color: #ffeb3b;
+}
+
+table{
+    width: 95%;
+    margin: 30px auto;
+    border-collapse: collapse;
+    background: white;
+}
+
+th,td{
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+th{
+    background: #b5e1ff;
+}
+
+input{
+    width: 95%;
+    padding: 6px;
+    border: none;         
+    background: transparent;
+    text-align: center;
+}
+
+.editmode{
+    border: 2px solid #1e88e5; 
+    background: #eef6ff;
+}
+
+button{
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+
+.editbtn{
+    background: #28a745;
+}
+
+.delbtn{
+    background: #d9534f;
+}

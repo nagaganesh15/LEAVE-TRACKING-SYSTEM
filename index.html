@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <title>Leave Request Page</title>
+        <link rel="stylesheet" href="leaverequestcss.css">
+    </head>
+
+    <body>
+
+        <div id="nav">
+            <div class="nav-container">
+                <div>
+                    <a href="index.html" class="deco">Leave Request</a>
+                    <a href="Admin.html" class="deco" target="_blank">Admin</a>
+                </div>
+                <div>
+                    <a href="employeeprofile.html"><button id="profile"></button></a>
+                </div>
+            </div>
+        </div>
+
+        <center>
+        <form onsubmit="store(event)">
+            <h1>Leave Request</h1>
+            <table>
+
+                <tr>
+                    <td>Employee ID:</td>
+                    <td><input type="text" id="empid" required></td>
+                </tr>
+
+                <tr>
+                    <td>Leave Type:</td>
+                    <td>
+                        <select id="leave">
+                            <option value="">--choose--</option>
+                            <option value="Sick">Sick</option>
+                            <option value="Casual">Casual</option>
+                            <option value="Earned">Earned</option>
+                            <option value="Emergency">Emergency</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Start Date:</td>
+                    <td><input type="date" id="startdate"></td>
+                </tr>
+
+                <tr>
+                    <td>End Date:</td>
+                    <td><input type="date" id="enddate"></td>
+                </tr>
+
+                <tr>
+                    <td>Reason:</td>
+                    <td><textarea id="reason"></textarea></td>
+                </tr>
+
+            </table>
+
+            <input type="submit" value="Submit Leave">
+            <div id="res"></div>
+        </form>
+        </center>
+
+        <script src="leaverequestjs.js"></script>
+
+    </body>
+</html>
