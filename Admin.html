@@ -73,6 +73,20 @@
     </center>
 </div>
 
+<center style="margin:15px 0;">
+    <b>Generate Leave Report</b><br><br>
+
+    From:
+    <input type="date" id="fromDate">
+
+    To:
+    <input type="date" id="toDate">
+
+    <button onclick="generateReport()">Generate Report</button>
+    <button onclick="resetReport()">Reset</button>
+</center>
+
+
 <center>
     <input id="searchtext" type="search">
     <input type="submit" value="Search" onclick="search()">
@@ -96,7 +110,8 @@
     </thead>
     <tbody id="tbody"></tbody>
 </table>
-
+<h1 id="res"></h1>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script src="Adminjs.js"></script>
 </body>
 </html>

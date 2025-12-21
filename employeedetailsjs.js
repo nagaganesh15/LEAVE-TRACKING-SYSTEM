@@ -5,7 +5,7 @@ function loadEmployees(){
     if(empdetails.length === 0){
         tbody.innerHTML = `
             <tr>
-                <td colspan="9" style="text-align:center; font-weight:bold; color:#777;">
+                <td colspan="10" style="text-align:center; font-weight:bold; color:#777;">
                     No Employees Added
                 </td>
             </tr>
@@ -20,6 +20,7 @@ function loadEmployees(){
         <tr>
             <td><input id="empid${i}" value="${emp.empid}" disabled></td>
             <td><input id="name${i}" value="${emp.name}" disabled></td>
+            <td><input id="email${i}" value="${emp.email || ''}" disabled></td> <!-- Email Field -->
             <td><input id="dept${i}" value="${emp.dept}" disabled></td>
             <td><input id="sick${i}" value="${emp.sickleaves}" disabled></td>
             <td><input id="casual${i}" value="${emp.casualleaves}" disabled></td>
@@ -42,7 +43,7 @@ function editEmployee(index,btn){
     let empdetails = JSON.parse(localStorage.getItem("storeempdetails")) || [];
 
     let fields = [
-        "empid","name","dept",
+        "empid","name","email","dept",  // added "email"
         "sick","casual","earned","emergency"
     ];
 
@@ -50,13 +51,14 @@ function editEmployee(index,btn){
         for(let f of fields){
             let input = document.getElementById(f+index);
             input.disabled = false;
-            input.classList.add("editmode"); // show border
+            input.classList.add("editmode");
         }
         btn.innerHTML="Save";
     }
     else{
         empdetails[index].empid = document.getElementById("empid"+index).value;
         empdetails[index].name = document.getElementById("name"+index).value;
+        empdetails[index].email = document.getElementById("email"+index).value; 
         empdetails[index].dept = document.getElementById("dept"+index).value;
         empdetails[index].sickleaves = document.getElementById("sick"+index).value;
         empdetails[index].casualleaves = document.getElementById("casual"+index).value;
@@ -76,4 +78,3 @@ function deleteEmployee(index){
 }
 
 loadEmployees();
-
