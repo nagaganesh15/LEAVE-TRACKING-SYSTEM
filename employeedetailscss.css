@@ -1,11 +1,12 @@
 body{
     font-family: Arial, sans-serif;
-    background: #f4f6f9;
+    background: var(--bg-color);
+    color: var(--text-color);
     margin: 0;
 }
 
 #nav {
-    background: #1e88e5;
+    background: var(--navbg-color);   
     padding: 15px 0;
     margin-bottom: 40px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
@@ -28,7 +29,7 @@ table{
     width: 95%;
     margin: 30px auto;
     border-collapse: collapse;
-    background: white;
+    background: var(--card-bg);
 }
 
 th,td{
@@ -36,9 +37,14 @@ th,td{
     padding: 10px;
     text-align: center;
 }
-
 th{
-    background: #b5e1ff;
+    background: var(--table-head-bg);
+    color: var(--table-head-text);
+}
+
+tbody input {
+    color: var(--text-color);
+    font-size: 14px;
 }
 
 input{
@@ -46,12 +52,14 @@ input{
     padding: 6px;
     border: none;         
     background: transparent;
+    
     text-align: center;
 }
 
 .editmode{
-    border: 2px solid #1e88e5; 
-    background: #eef6ff;
+    border: 2px solid #000000; 
+    background: var(--bg-color);
+    color: var(--text-color);
 }
 
 button{

@@ -1,0 +1,40 @@
+:root {
+    --bg-color: #f4f5f7;
+    --text-color: #000000;
+    --card-bg: #ffffff;
+    --table-head-bg: #89d0ff;
+    --table-head-text: #37474f;
+    --navbg-color: #203e84;
+}
+
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #ffffff;
+    --card-bg: #1e1e1e;
+    --table-head-bg: #2b77a9;
+    --table-head-text: #ffffff;
+    --navbg-color: #162f6a;
+}
+
+
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+#themeBtn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+#themeBtn i {
+    font-size: 20px;
+    color: white; /* navbar icon color */
+}
+
+/* icon hover like GFG */
+#themeBtn:hover i {
+    color: #ffeb3b;
+}

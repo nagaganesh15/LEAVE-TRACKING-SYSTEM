@@ -3,16 +3,27 @@
 <head>
     <title>Employee Leave Tracker</title>
     <link rel="stylesheet" href="Admincss.css">
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 </head>
 
 <body>
 
 <div id="nav">
     <center>
+        <a href="leaveanalytics.html" class="deco">Analytics</a>
         <a href="Admin.html" class="deco">Employee Leave Tracker</a>
         <a href="addemployee.html" class="deco">Add Employee</a>
         <a href="employeedetails.html" class="deco">Employee Details</a>
+        <button onclick="toggleTheme()" id="themeBtn" title="Toggle Theme">
+            <i class="fa-regular fa-moon" id="themeIcon"></i>
+        </button>
+
+
+
     </center>
+    
 </div>
 
 <table>
@@ -113,5 +124,7 @@
 <h1 id="res"></h1>
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script src="Adminjs.js"></script>
+<script src="theme.js"></script>
+
 </body>
 </html>

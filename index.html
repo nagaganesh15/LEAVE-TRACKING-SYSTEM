@@ -2,6 +2,10 @@
     <head>
         <title>Leave Request Page</title>
         <link rel="stylesheet" href="leaverequestcss.css">
+        <link rel="stylesheet" href="theme.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
     </head>
 
     <body>
@@ -10,9 +14,13 @@
             <div class="nav-container">
                 <div>
                     <a href="index.html" class="deco">Leave Request</a>
-                    <a href="Admin.html" class="deco" target="_blank">Admin</a>
+                    <a href="leaveanalytics.html" class="deco" target="_blank">Admin</a>
+                    <button onclick="toggleTheme()" id="themeBtn" title="Toggle Theme">
+                        <i class="fa-regular fa-moon" id="themeIcon"></i>
+                    </button>
                 </div>
                 <div>
+                    
                     <a href="employeeprofile.html"><button id="profile"></button></a>
                 </div>
             </div>
@@ -24,12 +32,12 @@
             <table>
 
                 <tr>
-                    <td>Employee ID:</td>
+                    <td id="te">Employee ID:</td>
                     <td><input type="text" id="empid" required></td>
                 </tr>
 
                 <tr>
-                    <td>Leave Type:</td>
+                    <td id="te">Leave Type:</td>
                     <td>
                         <select id="leave">
                             <option value="">--choose--</option>
@@ -37,22 +45,38 @@
                             <option value="Casual">Casual</option>
                             <option value="Earned">Earned</option>
                             <option value="Emergency">Emergency</option>
+                            <option value="Paternity">Paternity Leave</option>
+                            <option value="Maternity">Maternity Leave</option>
+                            <option value="Study">Study Leave</option>
                         </select>
                     </td>
                 </tr>
 
                 <tr>
-                    <td>Start Date:</td>
-                    <td><input type="date" id="startdate"></td>
+                    <td id="te">Half Day:</td>
+                    <td>
+                        <select id="halfday" onchange="updateEndDateForHalfDay()">
+                        <option value="No">No</option>
+                        <option value="First Half">First Half</option>
+                        <option value="Second Half">Second Half</option>
+                        </select>
+                    </td>
                 </tr>
 
                 <tr>
-                    <td>End Date:</td>
+                    <td id="te">Start Date:</td>
+                    <td>
+                        <input type="date" id="startdate" onchange="updateEndDateForHalfDay()">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td id="te">End Date:</td>
                     <td><input type="date" id="enddate"></td>
                 </tr>
 
                 <tr>
-                    <td>Reason:</td>
+                    <td id="te">Reason:</td>
                     <td><textarea id="reason"></textarea></td>
                 </tr>
 
@@ -64,6 +88,7 @@
         </center>
         <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
         <script src="leaverequestjs.js"></script>
-        
+        <script src="theme.js"></script>
+
     </body>
 </html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Leave Analytics Dashboard</title>
+    <link rel="stylesheet" href="theme.css">
+    <link rel="stylesheet" href="leaveanalyticscss.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
+</head>
+<body>
+    <div id="nav">
+        <center>
+            <a href="leaveanalytics.html" class="deco">Analytics</a>
+            <a href="Admin.html" class="deco">Employee Leave Tracker</a>
+            <a href="addemployee.html" class="deco">Add Employee</a>
+            <a href="employeedetails.html" class="deco">Employee Details</a>
+            <button onclick="toggleTheme()" id="themeBtn" title="Toggle Theme">
+                <i class="fa-regular fa-moon" id="themeIcon"></i>
+            </button>
+        </center>
+    </div>
+
+    <div class="container">
+        <h1 style="text-align: center; margin-top:-30px">📊 Leave Analytics Dashboard</h1>
+
+        <div class="filters-section">
+            <div>
+                <label>From:</label>
+                <input type="date" id="filterFromDate">
+            </div>
+            <div>
+                <label>To:</label>
+                <input type="date" id="filterToDate">
+            </div>
+            <div>
+                <label>Department:</label>
+                <select id="filterDept">
+                    <option value="All">All Departments</option>
+                    <option value="IT">IT</option>
+                    <option value="HR">HR</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Sales">Sales</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Operations">Operations</option>
+                </select>
+            </div>
+            <button onclick="applyFilters()">Apply Filters</button>
+            <button onclick="resetFilters()">Reset</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📋</div>
+                <h3>Total Leave Requests</h3>
+                <div class="stat-value" id="totalRequests">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">✅</div>
+                <h3>Approved Leaves</h3>
+                <div class="stat-value" id="approvedLeaves">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <h3>Pending Leaves</h3>
+                <div class="stat-value" id="pendingLeaves">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">❌</div>
+                <h3>Rejected Leaves</h3>
+                <div class="stat-value" id="rejectedLeaves">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📅</div>
+                <h3>Total Leave Days</h3>
+                <div class="stat-value" id="totalDays">0</div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h3>Leave Status Distribution</h3>
+                <div class="chart-wrapper">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3>Leave Types Distribution</h3>
+                <div class="chart-wrapper">
+                    <canvas id="leaveTypeChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3>Department-wise Leave Requests</h3>
+                <div class="chart-wrapper">
+                    <canvas id="deptChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3>Monthly Leave Trends</h3>
+                <div class="chart-wrapper">
+                    <canvas id="trendChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="trend-table">
+            <h3>Top 10 Employees by Leave Days</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Employee ID</th>
+                        <th>Name</th>
+                        <th>Department</th>
+                        <th>Total Leave Days</th>
+                        <th>Requests</th>
+                    </tr>
+                </thead>
+                <tbody id="topEmployees"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="theme.js"></script>
+    <script src="leaveanalyticsjs.js"></script>
+</body>
+</html>

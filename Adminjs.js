@@ -126,9 +126,16 @@ function display(data, groupBy = "none"){
 
     function addRow(item,index){
         let emp = employees.find(e => e.empid === item.empid) || {name:"-", dept:"-"};
-        let d1 = new Date(item.startdate);
-        let d2 = new Date(item.enddate);
-        let days = (d2-d1)/(1000*60*60*24)+1;
+        
+        // ONLY CHANGE: Calculate days with half day logic
+        let days;
+        if(item.halfday === "First Half" || item.halfday === "Second Half") {
+            days = `0.5 (${item.halfday})`;
+        } else {
+            let d1 = new Date(item.startdate);
+            let d2 = new Date(item.enddate);
+            days = (d2-d1)/(1000*60*60*24)+1;
+        }
 
         tablebody.innerHTML += `
         <tr>

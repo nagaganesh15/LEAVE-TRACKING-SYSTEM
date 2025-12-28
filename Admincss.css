@@ -1,12 +1,13 @@
 body {
     font-family: Arial, sans-serif;
-    background: #f4f5f7;
+    background: var(--bg-color);
+    color: var(--text-color);
     margin: 0;
-    padding: 0px;
+    padding: 0;
 }
 
 #nav {
-    background: #1e88e5;
+    background: var(--navbg-color);   
     padding: 15px 0;
     margin-bottom: 40px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
@@ -33,28 +34,32 @@ table, th, td {
 table {
     width: 90%;
     margin: 15px auto;
-    background: white;
+    background: var(--card-bg);
     border-radius: 6px;
     overflow: hidden;
     box-shadow: 0 1px 4px rgba(0,0,0,0.1);
 }
 
+
 thead {
-    background: #b5e1ff;
-    color: #37474f;
+    background: var(--table-head-bg);
+    color: var(--table-head-text);
     font-weight: 600;
 }
 
 th, td {
     padding: 12px;
     text-align: center;
+    color: var(--text-color);
 }
+
 
 #filters {
     display: flex;
     flex-direction: column;   
     gap: 12px;
-    background: white;
+    background: var(--card-bg);
+    color: var(--text-color);
     padding: 16px 20px;
     width: fit-content;
     margin: 20px auto;
@@ -67,6 +72,8 @@ th, td {
 select, input[type="search"], textarea {
     padding: 8px;
     border: 1px solid #bbb;
+    background: var(--card-bg);
+    color: var(--text-color);
     border-radius: 4px;
     font-size: 14px;
 }
@@ -74,7 +81,7 @@ select, input[type="search"], textarea {
 button, 
 input[type="submit"] {
     padding: 8px 14px;
-    background: #1e88e5;
+    background: var(--navbg-color);
     border: none;
     border-radius: 4px;
     color: white;
@@ -100,13 +107,13 @@ table button:hover {
     display: none;
 }
 
-.pendingcolor { background-color: #fff4b3; }
-.approvedcolor { background-color: #c9f7d5; }
-.rejectedcolor { background-color: #ffcccc; }
-.sickcolor { background-color: #ffe0e0; }
-.casualcolor { background-color: #eef0ff; }
-.earnedcolor { background-color: #e8ffe8; }
-.emergencycolor { background-color: #ffe9d6; }
+.pendingcolor { background-color: #fff4b3; color: black; }
+.approvedcolor { background-color: #c9f7d5; color: black; }
+.rejectedcolor { background-color: #ffcccc; color: black; }
+.sickcolor { background-color: #ffe0e0; color: black; }
+.casualcolor { background-color: #eef0ff; color: black; }
+.earnedcolor { background-color: #e8ffe8; color: black; }
+.emergencycolor { background-color: #ffe9d6; color: black; }
 
 textarea {
     resize: vertical;

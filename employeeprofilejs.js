@@ -1,76 +1,82 @@
-function loadProfileById(){
-    let empId = document.getElementById("searchEmpId").value.trim();
-    if(empId === ""){
-        alert("Enter Employee ID");
-        return;
-    }
-
+function loadProfileById() {
+    let empid = document.getElementById("searchEmpId").value.trim();
     let employees = JSON.parse(localStorage.getItem("storeempdetails")) || [];
     let leaves = JSON.parse(localStorage.getItem("storedata")) || [];
 
-    let emp = employees.find(e => e.empid == empId);
-    if(!emp){
+    let emp = employees.find(e => e.empid === empid);
+
+    if (!emp) {
         alert("Employee not found");
         return;
     }
 
+    // ✅ HIDE SEARCH CARD
     document.getElementById("searchCard").style.display = "none";
+
+    // ✅ SHOW PROFILE SECTION
     document.getElementById("profileSection").style.display = "block";
-
-    showEmployeeProfile(emp, leaves);
-}
-
-function showEmployeeProfile(emp, leaves){
 
     document.getElementById("eid").innerText = emp.empid;
     document.getElementById("ename").innerText = emp.name;
     document.getElementById("edept").innerText = emp.dept;
 
-    let sick = parseInt(emp.sickleaves);
-    let casual = parseInt(emp.casualleaves);
-    let earned = parseInt(emp.earnedleaves);
-    let emergency = parseInt(emp.emergencyleaves);
+    document.getElementById("bsick").innerText = emp.sickleaves;
+    document.getElementById("bcasual").innerText = emp.casualleaves;
+    document.getElementById("bearned").innerText = emp.earnedleaves;
+    document.getElementById("bemergency").innerText = emp.emergencyleaves;
 
-    let historyHTML = "";
+    let history = document.getElementById("leavehistory");
+    history.innerHTML = "";
 
-    leaves.forEach(l=>{
-        if(l.empid == emp.empid){
+    let empLeaves = leaves.filter(l => l.empid === empid);
 
-            let d1 = new Date(l.startdate);
-            let d2 = new Date(l.enddate);
-            let days = (d2 - d1) / (1000*60*60*24) + 1;
+    if (empLeaves.length === 0) {
+        history.innerHTML = `
+            <tr>
+                <td colspan="7" style="text-align:center;">No Leave Records</td>
+            </tr>`;
+        return;
+    }
 
-            if(l.status === "Approved"){
-                if(l.leavetype === "Sick") sick -= days;
-                if(l.leavetype === "Casual") casual -= days;
-                if(l.leavetype === "Earned") earned -= days;
-                if(l.leavetype === "Emergency") emergency -= days;
-            }
+    empLeaves.forEach((l, index) => {
+        let globalIndex = leaves.indexOf(l);
 
-            historyHTML += `
-                <tr>
-                    <td>${l.leavetype}</td>
-                    <td>${l.startdate}</td>
-                    <td>${l.enddate}</td>
-                    <td>${days}</td>
-                    <td>${l.status}</td>
-                    <td>
-                        ${
-                            l.comment
-                            ? `<div class="comment-text">${l.comment.replace(/\n/g,"<br>")}</div>`
-                            : "-"
-                        }
-                    </td>
-
-                </tr>
-            `;
-        }
+        history.innerHTML += `
+            <tr>
+                <td>${l.leavetype}</td>
+                <td>${l.startdate}</td>
+                <td>${l.enddate}</td>
+                <td>${l.days}</td>
+                <td>${l.status}</td>
+                <td>${l.comment || "-"}</td>
+                <td>
+                    ${
+                        (l.status === "Pending" || l.status === "Approved")
+                        ? `<button onclick="withdrawLeave(${globalIndex})">Withdraw</button>`
+                        : "-"
+                    }
+                </td>
+            </tr>
+        `;
     });
+}
 
-    document.getElementById("leavehistory").innerHTML = historyHTML;
-    document.getElementById("bsick").innerText = sick;
-    document.getElementById("bcasual").innerText = casual;
-    document.getElementById("bearned").innerText = earned;
-    document.getElementById("bemergency").innerText = emergency;
 
+/******** WITHDRAW LEAVE ********/
+function withdrawLeave(index) {
+    let leaves = JSON.parse(localStorage.getItem("storedata")) || [];
+
+    if (!leaves[index]) return;
+
+    if (!confirm("Are you sure you want to withdraw this leave?")) return;
+
+    leaves[index].status = "Withdraw Requested";
+    leaves[index].comment = "Employee requested withdrawal";
+
+    localStorage.setItem("storedata", JSON.stringify(leaves));
+
+    alert("Leave withdrawal request submitted");
+
+    // Reload profile
+    loadProfileById();
 }

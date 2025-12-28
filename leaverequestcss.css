@@ -2,11 +2,12 @@ body {
     margin: 0;
     padding: 0;
     font-family: "Poppins", sans-serif;
-    background: #f5f7fa;
+    background: var(--bg-color);
+    color: var(--text-color);
 }
 
 #nav {
-    background: #1e88e5;
+    background: var(--navbg-color);
     padding: 10px 20px;
     margin-bottom: 25px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
@@ -34,7 +35,6 @@ body {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: none;
     cursor: pointer;
     background-image: url('profile.jpg');
     background-size: cover;
@@ -44,16 +44,17 @@ body {
 }
 
 form {
-    background: white;
+    background: var(--card-bg);
+    color: var(--text-color);
     padding: 30px 40px;
     border-radius: 12px;
     width: 450px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
 }
 
 h1 {
     text-align: center;
-    color: #1e88e5;
+    color: var(--text-color);
 }
 
 table {
@@ -64,11 +65,15 @@ td {
     padding: 10px 0;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
     width: 100%;
     padding: 10px;
     border-radius: 8px;
-    border: 1px solid #ccc;
+    background: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
 }
 
 textarea {
@@ -76,11 +81,12 @@ textarea {
     height: 70px;
 }
 
+
 input[type="submit"] {
     margin-top: 20px;
     width: 100%;
     padding: 12px;
-    background: #1e88e5;
+    background: var(--navbg-color);
     color: white;
     border: none;
     border-radius: 8px;
@@ -92,10 +98,14 @@ input[type="submit"]:hover {
     background: #1565c0;
 }
 
+#te{
+    color: var(--text-color);
+}
+
 #res {
     margin-top: 15px;
     font-size: 18px;
-    color: green;
+    color: #4caf50;
     font-weight: bold;
     text-align: center;
 }
