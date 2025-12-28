@@ -7,18 +7,14 @@ const HOLIDAYS = [
     "2026-01-01",
     "2026-01-26",
     "2026-08-15",
-    "2026-10-02",
+    "2026-10-02"
 ];
 
 function handleLeaveType() {
-    let leaveType = document.getElementById("leave").value;
-    let halfDayEl = document.getElementById("halfday");
+    const leaveType = document.getElementById("leave").value;
+    const halfDayEl = document.getElementById("halfday");
 
-    if (
-        leaveType === "Paternity" ||
-        leaveType === "Maternity" ||
-        leaveType === "Study"
-    ) {
+    if (leaveType === "Paternity" || leaveType === "Maternity" || leaveType === "Study") {
         halfDayEl.value = "No";
         halfDayEl.disabled = true;
     } else {
@@ -29,17 +25,14 @@ function handleLeaveType() {
 }
 
 function updateEndDateForHalfDay() {
-    let halfDayEl = document.getElementById("halfday");
-    let startEl = document.getElementById("startdate");
-    let endEl = document.getElementById("enddate");
+    const halfDayEl = document.getElementById("halfday");
+    const startEl = document.getElementById("startdate");
+    const endEl = document.getElementById("enddate");
 
-    let halfday = halfDayEl.value;
-    let startdate = startEl.value;
+    if (!startEl.value) return;
 
-    if (!startdate) return;
-
-    if (halfday === "First Half" || halfday === "Second Half") {
-        endEl.value = startdate;
+    if (halfDayEl.value === "First Half" || halfDayEl.value === "Second Half") {
+        endEl.value = startEl.value;
         endEl.readOnly = true;
     } else {
         endEl.readOnly = false;
@@ -47,24 +40,25 @@ function updateEndDateForHalfDay() {
 }
 
 function hasHolidayConflict(start, end) {
-    let s = new Date(start);
-    let e = new Date(end);
+    const s = new Date(start);
+    const e = new Date(end);
 
     return HOLIDAYS.some(h => {
-        let holiday = new Date(h);
+        const holiday = new Date(h);
         return holiday >= s && holiday <= e;
     });
 }
 
 function hasLeaveOverlap(empid, start, end, leaves) {
-    let newStart = new Date(start);
-    let newEnd = new Date(end);
+    const newStart = new Date(start);
+    const newEnd = new Date(end);
 
     return leaves.some(l => {
         if (l.empid !== empid) return false;
+        if (l.status === "Rejected" || l.status === "Withdraw Requested") return false;
 
-        let existingStart = new Date(l.startdate);
-        let existingEnd = new Date(l.enddate);
+        const existingStart = new Date(l.startdate);
+        const existingEnd = new Date(l.enddate);
 
         return newStart <= existingEnd && newEnd >= existingStart;
     });
@@ -73,25 +67,25 @@ function hasLeaveOverlap(empid, start, end, leaves) {
 function store(event) {
     event.preventDefault();
 
-    let empidEl = document.getElementById("empid");
-    let leaveEl = document.getElementById("leave");
-    let halfDayEl = document.getElementById("halfday");
-    let startEl = document.getElementById("startdate");
-    let endEl = document.getElementById("enddate");
-    let reasonEl = document.getElementById("reason");
-    let res = document.getElementById("res");
+    const empidEl = document.getElementById("empid");
+    const leaveEl = document.getElementById("leave");
+    const halfDayEl = document.getElementById("halfday");
+    const startEl = document.getElementById("startdate");
+    const endEl = document.getElementById("enddate");
+    const reasonEl = document.getElementById("reason");
+    const res = document.getElementById("res");
 
-    let empid = empidEl.value.trim();
-    let leavetype = leaveEl.value;
-    let halfday = halfDayEl.value;
+    const empid = empidEl.value.trim();
+    const leavetype = leaveEl.value;
+    const halfday = halfDayEl.value;
     let startdate = startEl.value;
     let enddate = endEl.value;
-    let reason = reasonEl.value;
+    const reason = reasonEl.value;
 
-    let employees = JSON.parse(localStorage.getItem("storeempdetails")) || [];
-    let leaves = JSON.parse(localStorage.getItem("storedata")) || [];
+    const employees = JSON.parse(localStorage.getItem("storeempdetails")) || [];
+    const leaves = JSON.parse(localStorage.getItem("storedata")) || [];
 
-    let employee = employees.find(emp => emp.empid === empid);
+    const employee = employees.find(emp => emp.empid === empid);
 
     if (!empid) {
         res.innerHTML = "Please Enter Employee ID";
@@ -117,18 +111,25 @@ function store(event) {
         return;
     }
 
+    if (new Date(enddate) < new Date(startdate)) {
+        res.innerHTML = "End date cannot be before start date";
+        res.style.color = "red";
+        return;
+    }
+
     let numberOfDays;
+
     if (halfday === "First Half" || halfday === "Second Half") {
         numberOfDays = 0.5;
         enddate = startdate;
     } else {
-        let d1 = new Date(startdate);
-        let d2 = new Date(enddate);
+        const d1 = new Date(startdate);
+        const d2 = new Date(enddate);
         numberOfDays = (d2 - d1) / (1000 * 60 * 60 * 24) + 1;
     }
 
-    if (hasHolidayConflict(startdate, enddate)) {
-        res.innerHTML = "Leave Auto-Rejected due to Holiday Conflict";
+    if (halfday === "No" && hasHolidayConflict(startdate, enddate)) {
+        res.innerHTML = "Leave cannot be applied on holidays";
         res.style.color = "red";
         return;
     }
@@ -156,34 +157,30 @@ function store(event) {
     emailjs.send("service_bxa8ywt", "template_fj9bwz9", {
         to_email: employee.email,
         emp_name: employee.name,
-        leave_type: `${leavetype} ${halfDayText}`,
+        leave_type: halfday === "No" ? leavetype : `${leavetype} (${halfday})`,
         start_date: startdate,
         end_date: enddate,
         days: numberOfDays,
         status: "Pending"
     }).then(
-        function () {
+        () => {
             res.style.color = "green";
             res.innerHTML = "Leave Request Submitted Successfully";
+            empidEl.value = "";
+            leaveEl.value = "";
+            halfDayEl.value = "No";
+            halfDayEl.disabled = false;
+            startEl.value = "";
+            endEl.value = "";
+            reasonEl.value = "";
+            endEl.readOnly = false;
         },
-        function () {
+        () => {
             res.style.color = "red";
-            res.innerHTML = "Email Failed. Try Again";
+            res.innerHTML = "Leave submitted but email failed";
         }
     );
 
 
-    res.innerHTML = "Leave Request Submitted Successfully";
-    res.style.color = "green";
-
-    empidEl.value = "";
-    leaveEl.value = "";
-    halfDayEl.value = "No";
-    halfDayEl.disabled = false;
-    startEl.value = "";
-    endEl.value = "";
-    reasonEl.value = "";
-    endEl.readOnly = false;
-
-    setTimeout(() => res.innerHTML = "", 2500);
+    setTimeout(() => res.innerHTML = "", 3000);
 }
