@@ -10,19 +10,6 @@ const HOLIDAYS = [
     "2026-10-02"
 ];
 
-function handleLeaveType() {
-    const leaveType = document.getElementById("leave").value;
-    const halfDayEl = document.getElementById("halfday");
-
-    if (leaveType === "Paternity" || leaveType === "Maternity" || leaveType === "Study") {
-        halfDayEl.value = "No";
-        halfDayEl.disabled = true;
-    } else {
-        halfDayEl.disabled = false;
-    }
-
-    updateEndDateForHalfDay();
-}
 
 function updateEndDateForHalfDay() {
     const halfDayEl = document.getElementById("halfday");
@@ -67,20 +54,12 @@ function hasLeaveOverlap(empid, start, end, leaves) {
 function store(event) {
     event.preventDefault();
 
-    const empidEl = document.getElementById("empid");
-    const leaveEl = document.getElementById("leave");
-    const halfDayEl = document.getElementById("halfday");
-    const startEl = document.getElementById("startdate");
-    const endEl = document.getElementById("enddate");
-    const reasonEl = document.getElementById("reason");
-    const res = document.getElementById("res");
-
-    const empid = empidEl.value.trim();
-    const leavetype = leaveEl.value;
-    const halfday = halfDayEl.value;
-    let startdate = startEl.value;
-    let enddate = endEl.value;
-    const reason = reasonEl.value;
+    const empid = document.getElementById("empid").value.trim();
+    const leavetype = document.getElementById("leave").value;
+    const halfday = document.getElementById("halfday").value;
+    let startdate = document.getElementById("startdate").value;
+    let enddate = document.getElementById("enddate").value;
+    const reason = document.getElementById("reason").value;
 
     const employees = JSON.parse(localStorage.getItem("storeempdetails")) || [];
     const leaves = JSON.parse(localStorage.getItem("storedata")) || [];
